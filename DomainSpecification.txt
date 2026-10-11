@@ -1,0 +1,37 @@
+FR
+Domain Specification: Theater Seat Reservation Service
+
+Purpose
+This project is a learning Web API for reserving seats for theater performances. A customer selects a performance and one or more seats. The server accepts a reservation request and returns a reservation identifier.
+
+Functional Requirements
+FR-01: The system shall accept a reservation request containing a performance ID, customer name, and one or more seat IDs.
+FR-02: The system shall return a reservation ID after accepting a reservation.
+FR-03: The system shall provide an endpoint to get a reservation by ID.
+FR-04: The system shall provide an endpoint to list reservations.
+FR-05: The system shall provide an endpoint to update reservation information.
+FR-06: In a complete version, the system shall reject a reservation when the performance does not exist, a seat does not belong to its theater, or a requested seat is already reserved for that performance.
+FR-07: In a complete version, the system shall support cancellation of a reservation.
+
+Non-Functional Requirements (NFR)
+Performance: Reservation and seat availability responses should be returned promptly.
+Security: Only authorized users should manage or cancel their own reservations in a production version.
+Usability: Request and response data should be simple and predictable for client applications.
+Reliability: The same seat for the same performance must not be confirmed for two reservations.
+Scalability: The design should allow more performances, seats, and concurrent customers.
+Maintainability: Controller, service contract, service implementation, DTOs, and models have separate responsibilities.
+Portability: The API should run in supported .NET environments.
+
+Architecture Blueprint
+Client -> ReservationController -> IReservationService -> ReservationService -> (future database)
+
+Responsibilities
+Controller: Receives HTTP requests, maps request DTOs to models, calls the service, and creates HTTP responses.
+DTO: Defines the data contract between the client and API.
+Model: Represents reservation data inside the application.
+Interface: Defines the service operations without prescribing their implementation.
+Service: Holds reservation business logic and, in a complete version, communicates with persistence.
+Dependency Injection (DI): Supplies the selected service implementation to the controller through the interface.
+
+Scope of this learning version
+The current service is a teaching scaffold. It returns a sample ID and does not persist reservations. Update, get-by-ID, and list operations are placeholders. Database storage, authentication, payments, cancellation, input validation, and concurrency-safe seat locking are future work.
